@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editor de Fotos - Correções Automáticas (Modo Escuro)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #1a1a2e; /* Dark background */
+            color: #e0e0e0; /* Light text */
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: #24243e; /* Darker container background */
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.25); /* Adjusted shadow for dark theme */
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #3a3a5e, #1f1f30); /* Darker header gradient */
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid #4a4a6a;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.8; /* Slightly less opacity for dark theme */
+        }
+
+        .main-content {
+            display: flex;
+            min-height: 70vh;
+        }
+
+        .sidebar {
+            width: 300px;
+            background: #1f1f30; /* Dark sidebar background */
+            padding: 20px;
+            border-right: 1px solid #4a4a6a; /* Darker border */
+        }
+
+        .upload-section, .controls-section, .download-section, .history-section {
+            background: #2a2a4a; /* Dark section background */
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+        }
+
+        .controls-section h3, .download-section h3, .history-section h3, .upload-section h3 {
+            margin-bottom: 15px;
+            color: #c0c0e0; /* Lighter heading color for sections */
+            font-size: 1.2rem;
+            border-bottom: 1px solid #4a4a6a;
+            padding-bottom: 10px;
+        }
+         .controls-section h4 {
+             color: #c0c0e0;
+         }
+
+
+        .upload-area {
+            border: 2px dashed #5a5a7a; /* Darker dashed border */
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background-color: #303050;
+        }
+
+        .upload-area:hover {
+            border-color: #7f5af0; /* Accent color for hover */
+            background: #3a3a5a;
+        }
+
+        .upload-area.drag-over {
+            border-color: #7f5af0;
+            background: #404065;
+        }
+
+        .upload-icon {
+            font-size: 3rem;
+            color: #8a8aa0; /* Muted icon color */
+            margin-bottom: 10px;
+        }
+        .upload-area p {
+            color: #b0b0d0;
+        }
+         .upload-area p strong {
+             color: #d0d0f0;
+         }
+
+
+        .btn {
+            width: 100%;
+            padding: 12px 20px;
+            margin-bottom: 10px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #7f5af0, #5f3ac0); /* Primary button dark theme */
+            color: white;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px rgba(127, 90, 240, 0.3);
+        }
+
+        .btn-secondary {
+            background: #4a4a6a; /* Secondary button dark theme */
+            color: #e0e0e0;
+            border: 1px solid #5a5a7a;
+        }
+
+        .btn-secondary:hover:not(:disabled) {
+            background: #5a5a7a;
+            transform: translateY(-1px);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #ef4444, #dc2626); /* Danger button remains vibrant */
+            color: white;
+        }
+
+        .btn-danger:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px rgba(239, 68, 68, 0.3);
+        }
+
+        .btn:disabled {
+            opacity: 0.4; /* Adjusted opacity for dark theme */
+            cursor: not-allowed;
+            transform: none !important;
+            background: #3a3a5a !important; 
+            color: #7a7a9a !important; 
+            box-shadow: none !important;
+        }
+        .btn-primary#autoAll { 
+            background: linear-gradient(135deg, #059669, #047857);
+        }
+        .btn-primary#autoAll:hover:not(:disabled) {
+            box-shadow: 0 8px 15px rgba(5, 150, 105, 0.3);
+            transform: translateY(-2px);
+        }
+
+
+        .canvas-area {
+            flex: 1;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #1e1e30; 
+        }
+
+        .canvas-container {
+            max-width: 100%;
+            max-height: 100%;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            border: 1px solid #4a4a6a;
+        }
+
+        canvas {
+            display: block;
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+        .no-image {
+            text-align: center;
+            color: #8a8aa0; 
+            font-size: 1.2rem;
+        }
+
+        .no-image-icon {
+            font-size: 5rem;
+            margin-bottom: 20px;
+            opacity: 0.4;
+        }
+
+        .history-item {
+            padding: 8px 12px;
+            margin-bottom: 5px;
+            background: #303050; 
+            border-radius: 6px;
+            font-size: 0.9rem;
+            color: #b0b0d0; 
+            border: 1px solid #404060;
+        }
+         .history-item.active {
+            background-color: #7f5af0; 
+            color: white;
+            font-weight: bold;
+            border-color: #7f5af0;
+        }
+
+        .quality-selector {
+            width: 100%;
+            padding: 8px;
+            margin: 10px 0;
+            border: 1px solid #5a5a7a; 
+            border-radius: 6px;
+            font-size: 1rem;
+            background-color: #3a3a5a; 
+            color: #e0e0e0; 
+        }
+        .quality-selector option {
+            background-color: #3a3a5a;
+            color: #e0e0e0;
+        }
+
+
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                border-right: none;
+                margin-bottom: 20px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+        }
+
+        .loading {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.65); 
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .loading.show {
+            display: flex;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #5a5a7a; 
+            border-top: 5px solid #7f5af0; 
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📸 Editor de Fotos Profissional</h1>
+            <p>Correções automáticas de qualidade profissional</p>
+        </div>
+
+        <div class="main-content">
+            <div class="sidebar">
+                <div class="upload-section">
+                    <h3>📁 Carregar Imagem</h3>
+                    <div class="upload-area" id="uploadArea">
+                        <div class="upload-icon">📷</div>
+                        <p><strong>Clique aqui</strong> ou arraste uma imagem</p>
+                        <p style="font-size: 0.9rem; color: #8a8aa0; margin-top: 5px;">
+                            Formatos: JPG, PNG, GIF (até 10MB)
+                        </p>
+                    </div>
+                    <input type="file" id="fileInput" accept="image/*" style="display: none;">
+                </div>
+
+                <div class="controls-section">
+                    <h3>🎨 Correções Automáticas</h3>
+                    
+                    <button class="btn btn-primary" id="autoColor" disabled>
+                        🌈 Correção Automática de Cor
+                    </button>
+                    
+                    <button class="btn btn-primary" id="autoBrightness" disabled>
+                        ☀️ Correção de Brilho
+                    </button>
+                    
+                    <button class="btn btn-primary" id="autoContrast" disabled>
+                        ⚡ Correção de Contraste
+                    </button>
+                    
+                    <button class="btn btn-primary" id="autoBalance" disabled>
+                        ⚖️ Equilíbrio de Cores
+                    </button>
+                    
+                    <button class="btn btn-primary" id="autoLevels" disabled>
+                        📊 Correção de Níveis (Histograma)
+                    </button>
+                    
+                    <button class="btn btn-primary" id="autoSaturation" disabled>
+                        🎭 Correção de Saturação
+                    </button>
+                    
+                    <button class="btn btn-primary" id="autoSharpness" disabled>
+                        ✨ Nitidez Automática (Básica)
+                    </button>
+                     <button class="btn btn-primary" id="unsharpMask" disabled>
+                        🌟 Otimizar Nitidez (Avançado)
+                    </button>
+
+                    <button class="btn btn-primary" id="blackAndWhite" disabled>
+                        🔳 Preto e Branco (Estilo Pro)
+                    </button>
+                    
+                    <div style="margin: 20px 0; border-top: 1px solid #4a4a6a; padding-top: 15px;">
+                        <h4 style="margin-bottom: 10px;">⚡ Correção Completa</h4>
+                        <button class="btn btn-primary" id="autoAll" disabled>
+                            🪄 Aplicar Todas as Correções
+                        </button>
+                    </div>
+                </div>
+
+                <div class="controls-section">
+                    <h3>🔄 Controles</h3>
+                    
+                    <button class="btn btn-secondary" id="undoBtn" disabled>
+                        ↩️ Desfazer
+                    </button>
+                    
+                    <button class="btn btn-secondary" id="redoBtn" disabled>
+                        ↪️ Refazer
+                    </button>
+                    
+                    <button class="btn btn-danger" id="resetBtn" disabled>
+                        🔄 Resetar Original
+                    </button>
+                </div>
+
+                <div class="download-section">
+                    <h3>💾 Download</h3>
+                    <p style="font-size: 0.9rem; color: #b0b0d0; margin-bottom: 10px;">
+                        A imagem será guardada em formato PNG (sem perdas) para máxima qualidade.
+                    </p>
+                    <select class="quality-selector" id="qualitySelect" style="display: none;"> 
+                        <option value="1.0">Qualidade Máxima (JPEG)</option>
+                    </select>
+                    <button class="btn btn-primary" id="downloadBtn" disabled>
+                        ⬇️ Baixar Imagem (PNG Lossless)
+                    </button>
+                </div>
+
+                <div class="history-section">
+                    <h3>📝 Histórico</h3>
+                    <div id="historyList">
+                        <div class="history-item">Nenhuma edição ainda</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="canvas-area" id="canvasAreaElement">
+                <div id="canvasContainer" class="canvas-container" style="display: none;">
+                    <canvas id="canvas"></canvas>
+                </div>
+                <div id="noImage" class="no-image">
+                    <div class="no-image-icon">🖼️</div>
+                    <p>Carregue uma imagem para começar a editar</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="loading" id="loading">
+        <div class="spinner"></div>
+    </div>
+
+    <script>
+        class PhotoEditor {
+            constructor() {
+                this.canvas = document.getElementById('canvas');
+                this.ctx = this.canvas.getContext('2d', { willReadFrequently: true });
+                this.originalImageData = null;
+                this.currentImageData = null;
+                this.history = [];
+                this.historyIndex = -1;
+                this.maxHistorySize = 20;
+                this.operationDescriptions = [];
+                
+                this.initializeElements();
+                this.setupEventListeners();
+            }
+
+            initializeElements() {
+                this.elements = {
+                    fileInput: document.getElementById('fileInput'),
+                    uploadArea: document.getElementById('uploadArea'),
+                    canvasContainer: document.getElementById('canvasContainer'),
+                    canvasArea: document.getElementById('canvasAreaElement'),
+                    noImage: document.getElementById('noImage'),
+                    loading: document.getElementById('loading'),
+                    historyList: document.getElementById('historyList'),
+                    
+                    autoColor: document.getElementById('autoColor'),
+                    autoBrightness: document.getElementById('autoBrightness'),
+                    autoContrast: document.getElementById('autoContrast'),
+                    autoBalance: document.getElementById('autoBalance'),
+                    autoLevels: document.getElementById('autoLevels'),
+                    autoSaturation: document.getElementById('autoSaturation'),
+                    autoSharpness: document.getElementById('autoSharpness'), 
+                    unsharpMask: document.getElementById('unsharpMask'),     
+                    blackAndWhite: document.getElementById('blackAndWhite'),
+                    autoAll: document.getElementById('autoAll'),
+                    
+                    undoBtn: document.getElementById('undoBtn'),
+                    redoBtn: document.getElementById('redoBtn'),
+                    resetBtn: document.getElementById('resetBtn'),
+                    downloadBtn: document.getElementById('downloadBtn'),
+                    qualitySelect: document.getElementById('qualitySelect')
+                };
+            }
+
+            setupEventListeners() {
+                this.elements.fileInput.addEventListener('change', (e) => this.handleFileSelect(e));
+                this.elements.uploadArea.addEventListener('click', () => this.elements.fileInput.click());
+                
+                this.elements.uploadArea.addEventListener('dragover', (e) => this.handleDragOver(e));
+                this.elements.uploadArea.addEventListener('dragleave', (e) => this.handleDragLeave(e));
+                this.elements.uploadArea.addEventListener('drop', (e) => this.handleDrop(e));
+                
+                this.elements.autoColor.addEventListener('click', () => this.applyAutoColorCorrection());
+                this.elements.autoBrightness.addEventListener('click', () => this.applyAutoBrightness());
+                this.elements.autoContrast.addEventListener('click', () => this.applyAutoContrast());
+                this.elements.autoBalance.addEventListener('click', () => this.applyAutoColorBalance());
+                this.elements.autoLevels.addEventListener('click', () => this.applyAutoLevels());
+                this.elements.autoSaturation.addEventListener('click', () => this.applyAutoSaturation());
+                this.elements.autoSharpness.addEventListener('click', () => this.applyAutoSharpness()); 
+                this.elements.unsharpMask.addEventListener('click', () => this.applyUnsharpMask()); 
+                this.elements.blackAndWhite.addEventListener('click', () => this.applyBlackAndWhite());
+                this.elements.autoAll.addEventListener('click', () => this.applyAllCorrections());
+                
+                this.elements.undoBtn.addEventListener('click', () => this.undo());
+                this.elements.redoBtn.addEventListener('click', () => this.redo());
+                this.elements.resetBtn.addEventListener('click', () => this.reset());
+                this.elements.downloadBtn.addEventListener('click', () => this.download());
+            }
+
+            handleDragOver(e) { e.preventDefault(); this.elements.uploadArea.classList.add('drag-over'); }
+            handleDragLeave(e) { e.preventDefault(); this.elements.uploadArea.classList.remove('drag-over'); }
+            handleDrop(e) {
+                e.preventDefault();
+                this.elements.uploadArea.classList.remove('drag-over');
+                const files = e.dataTransfer.files;
+                if (files.length > 0) this.loadImage(files[0]);
+            }
+            handleFileSelect(e) {
+                const file = e.target.files[0];
+                if (file) this.loadImage(file);
+            }
+
+            loadImage(file) {
+                if (file.size > 10 * 1024 * 1024) { // 10MB
+                    alert('Arquivo muito grande! Máximo 10MB.');
+                    return;
+                }
+                this.showLoading();
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const img = new Image();
+                    img.onload = () => { 
+                        this.setupCanvas(img); 
+                        // this.hideLoading() is called inside setupCanvas finally block
+                    };
+                    img.onerror = () => { 
+                        alert('Não foi possível carregar a imagem. O formato pode não ser suportado ou o arquivo está corrompido.'); 
+                        this.hideLoading(); 
+                    };
+                    img.src = e.target.result;
+                };
+                reader.onerror = () => { 
+                    alert('Erro ao ler o arquivo.'); 
+                    this.hideLoading(); 
+                };
+                reader.readAsDataURL(file);
+            }
+
+            setupCanvas(img) {
+                if (!this.elements.canvasArea) {
+                    console.error("Elemento da área do canvas não encontrado!");
+                    alert("Erro crítico: Área do canvas não encontrada.");
+                    this.hideLoading();
+                    return;
+                }
+
+                let displayMaxWidth = 800; 
+                let displayMaxHeight = 600;
+                
+                const areaWidth = this.elements.canvasArea.offsetWidth;
+                const areaHeight = this.elements.canvasArea.offsetHeight;
+
+                if (areaWidth > 0) displayMaxWidth = Math.max(1, areaWidth - 40); // Subtract padding
+                if (areaHeight > 0) displayMaxHeight = Math.max(1, areaHeight - 40); // Subtract padding
+                
+                let { width: imgWidth, height: imgHeight } = img;
+
+                if (imgWidth <= 0 || imgHeight <= 0) {
+                    alert('A imagem carregada tem dimensões inválidas.');
+                    this.hideLoading();
+                    return;
+                }
+
+                let ratio = 1;
+                if (imgWidth > displayMaxWidth || imgHeight > displayMaxHeight) {
+                    ratio = Math.min(displayMaxWidth / imgWidth, displayMaxHeight / imgHeight);
+                }
+
+                let canvasWidth = Math.round(imgWidth * ratio);
+                let canvasHeight = Math.round(imgHeight * ratio);
+
+                this.canvas.width = Math.max(1, canvasWidth); // Ensure at least 1px
+                this.canvas.height = Math.max(1, canvasHeight); // Ensure at least 1px
+                
+                this.ctx.drawImage(img, 0, 0, this.canvas.width, this.canvas.height);
+                
+                try {
+                    this.originalImageData = this.ctx.getImageData(0, 0, this.canvas.width, this.canvas.height);
+                    this.currentImageData = this.cloneImageData(this.originalImageData);
+                
+                    this.history = [this.cloneImageData(this.originalImageData)];
+                    this.operationDescriptions = ['Imagem Carregada'];
+                    this.historyIndex = 0;
+                
+                    this.showCanvas();
+                    this.enableControls();
+                    this.updateHistoryView();
+                } catch (e) {
+                    console.error("Error in setupCanvas (getImageData or history):", e);
+                    alert("Ocorreu um erro ao configurar o canvas com a imagem. Verifique o console para detalhes.");
+                    this.elements.noImage.style.display = 'block';
+                    this.elements.canvasContainer.style.display = 'none';
+                } finally {
+                     this.hideLoading();
+                }
+            }
+
+            showCanvas() { this.elements.noImage.style.display = 'none'; this.elements.canvasContainer.style.display = 'block'; }
+            enableControls() {
+                Object.values(this.elements).forEach(el => {
+                    if (el && typeof el.disabled === 'boolean' && ![this.elements.fileInput, this.elements.uploadArea, this.elements.canvasContainer, this.elements.canvasArea, this.elements.noImage, this.elements.loading, this.elements.historyList, this.elements.qualitySelect].includes(el)) {
+                        el.disabled = false;
+                    }
+                });
+                this.updateUndoRedoButtons();
+            }
+            showLoading() { this.elements.loading.classList.add('show'); }
+            hideLoading() { this.elements.loading.classList.remove('show'); }
+            cloneImageData(imageData) { return new ImageData(new Uint8ClampedArray(imageData.data), imageData.width, imageData.height); }
+
+            saveState(description) {
+                if (this.historyIndex < this.history.length - 1) {
+                    this.history = this.history.slice(0, this.historyIndex + 1);
+                    this.operationDescriptions = this.operationDescriptions.slice(0, this.historyIndex + 1);
+                }
+                this.history.push(this.cloneImageData(this.currentImageData));
+                this.operationDescriptions.push(description);
+                this.historyIndex++;
+                if (this.history.length > this.maxHistorySize) {
+                    this.history.shift(); this.operationDescriptions.shift(); this.historyIndex--;
+                }
+                this.updateHistoryView(); this.updateUndoRedoButtons();
+            }
+
+            updateHistoryView() {
+                if (!this.elements.historyList) return;
+                const fragment = document.createDocumentFragment();
+                if (this.history.length === 0 || this.historyIndex < 0) {
+                    const item = document.createElement('div'); item.className = 'history-item'; item.textContent = 'Nenhuma edição ainda'; fragment.appendChild(item);
+                } else {
+                    for (let i = this.history.length - 1; i >= 0; i--) {
+                        const item = document.createElement('div'); item.className = 'history-item';
+                        item.textContent = this.operationDescriptions[i] || `Edição ${i + 1}`;
+                        if (i === this.historyIndex) item.classList.add('active');
+                        fragment.appendChild(item);
+                    }
+                }
+                this.elements.historyList.innerHTML = ''; this.elements.historyList.appendChild(fragment);
+            }
+
+            updateUndoRedoButtons() { this.elements.undoBtn.disabled = this.historyIndex <= 0; this.elements.redoBtn.disabled = this.historyIndex >= this.history.length - 1; }
+            undo() {
+                if (this.historyIndex > 0) {
+                    this.historyIndex--; this.currentImageData = this.cloneImageData(this.history[this.historyIndex]);
+                    this.ctx.putImageData(this.currentImageData, 0, 0); this.updateUndoRedoButtons(); this.updateHistoryView();
+                }
+            }
+            redo() {
+                if (this.historyIndex < this.history.length - 1) {
+                    this.historyIndex++; this.currentImageData = this.cloneImageData(this.history[this.historyIndex]);
+                    this.ctx.putImageData(this.currentImageData, 0, 0); this.updateUndoRedoButtons(); this.updateHistoryView();
+                }
+            }
+            reset() {
+                if (this.originalImageData) {
+                    this.currentImageData = this.cloneImageData(this.originalImageData);
+                    this.ctx.putImageData(this.currentImageData, 0, 0);
+                    this.history = [this.cloneImageData(this.originalImageData)];
+                    this.operationDescriptions = ['Imagem Original (Após Reset)']; this.historyIndex = 0;
+                    this.updateHistoryView(); this.updateUndoRedoButtons();
+                }
+            }
+
+            // --- IMAGE PROCESSING LOGIC FUNCTIONS (Unminified and Corrected) ---
+            applyAutoLevelsLogic(imgDataToProcess) {
+                const imageData = this.cloneImageData(imgDataToProcess);
+                const data = imageData.data;
+                const totalPixels = imageData.width * imageData.height;
+                const histograms = [new Array(256).fill(0), new Array(256).fill(0), new Array(256).fill(0)];
+                const lutR = new Uint8Array(256); const lutG = new Uint8Array(256); const lutB = new Uint8Array(256);
+
+                for (let i = 0; i < data.length; i += 4) {
+                    histograms[0][data[i]]++; histograms[1][data[i + 1]]++; histograms[2][data[i + 2]]++;
+                }
+                const clipThreshold = totalPixels * 0.005;
+                for (let c = 0; c < 3; c++) {
+                    let currentHistogram = histograms[c]; let minVal = 0; let cumulativeCount = 0;
+                    for (let j = 0; j < 256; j++) { cumulativeCount += currentHistogram[j]; if (cumulativeCount > clipThreshold) { minVal = j; break; } }
+                    let maxVal = 255; cumulativeCount = 0;
+                    for (let j = 255; j >= 0; j--) { cumulativeCount += currentHistogram[j]; if (cumulativeCount > clipThreshold) { maxVal = j; break; } }
+                    const lut = (c === 0) ? lutR : (c === 1) ? lutG : lutB;
+                    if (minVal >= maxVal) { for (let j = 0; j < 256; j++) lut[j] = j; } 
+                    else { for (let j = 0; j < 256; j++) { if (j < minVal) lut[j] = 0; else if (j > maxVal) lut[j] = 255; else lut[j] = Math.round(((j - minVal) / (maxVal - minVal)) * 255); } }
+                }
+                for (let i = 0; i < data.length; i += 4) {
+                    data[i] = lutR[data[i]]; data[i + 1] = lutG[data[i + 1]]; data[i + 2] = lutB[data[i + 2]];
+                }
+                return imageData;
+            }
+
+            applyAutoColorCorrectionLogic(imgDataToProcess) {
+                const imageData = this.cloneImageData(imgDataToProcess); const data = imageData.data;
+                let rSum = 0, gSum = 0, bSum = 0; const pixelCount = data.length / 4;
+                for (let i = 0; i < data.length; i += 4) { rSum += data[i]; gSum += data[i + 1]; bSum += data[i + 2]; }
+                const rAvg = rSum / pixelCount; const gAvg = gSum / pixelCount; const bAvg = bSum / pixelCount;
+                const targetGray = (rAvg + gAvg + bAvg) / 3;
+                const rFactor = rAvg > 0 ? targetGray / rAvg : 1; const gFactor = gAvg > 0 ? targetGray / gAvg : 1; const bFactor = bAvg > 0 ? targetGray / bAvg : 1;
+                for (let i = 0; i < data.length; i += 4) {
+                    const originalR = data[i]; const originalG = data[i + 1]; const originalB = data[i + 2];
+                    data[i] = Math.max(0, Math.min(255, Math.round(originalR * rFactor * 0.8 + originalR * 0.2)));
+                    data[i + 1] = Math.max(0, Math.min(255, Math.round(originalG * gFactor * 0.8 + originalG * 0.2)));
+                    data[i + 2] = Math.max(0, Math.min(255, Math.round(originalB * bFactor * 0.8 + originalB * 0.2)));
+                }
+                return imageData;
+            }
+
+            applyAutoBrightnessLogic(imgDataToProcess) {
+                const imageData = this.cloneImageData(imgDataToProcess); const data = imageData.data;
+                let brightnessSum = 0; for (let i = 0; i < data.length; i += 4) { brightnessSum += (data[i] + data[i + 1] + data[i + 2]) / 3; }
+                const avgBrightness = brightnessSum / (data.length / 4); const targetBrightness = 128;
+                const adjustment = (targetBrightness - avgBrightness) * 0.5;
+                for (let i = 0; i < data.length; i += 4) {
+                    data[i] = Math.max(0, Math.min(255, Math.round(data[i] + adjustment)));
+                    data[i + 1] = Math.max(0, Math.min(255, Math.round(data[i + 1] + adjustment)));
+                    data[i + 2] = Math.max(0, Math.min(255, Math.round(data[i + 2] + adjustment)));
+                }
+                return imageData;
+            }
+
+            applyAutoContrastLogic(imgDataToProcess) {
+                const imageData = this.cloneImageData(imgDataToProcess); const data = imageData.data;
+                let rMin = 255, rMax = 0, gMin = 255, gMax = 0, bMin = 255, bMax = 0;
+                for (let i = 0; i < data.length; i += 4) {
+                    rMin = Math.min(rMin, data[i]); rMax = Math.max(rMax, data[i]);
+                    gMin = Math.min(gMin, data[i + 1]); gMax = Math.max(gMax, data[i + 1]);
+                    bMin = Math.min(bMin, data[i + 2]); bMax = Math.max(bMax, data[i + 2]);
+                }
+                for (let i = 0; i < data.length; i += 4) {
+                    data[i] = rMax > rMin ? Math.round(((data[i] - rMin) * 255) / (rMax - rMin)) : data[i];
+                    data[i + 1] = gMax > gMin ? Math.round(((data[i + 1] - gMin) * 255) / (gMax - gMin)) : data[i + 1];
+                    data[i + 2] = bMax > bMin ? Math.round(((data[i + 2] - bMin) * 255) / (bMax - bMin)) : data[i + 2];
+                }
+                return imageData;
+            }
+            
+            applyAutoColorBalanceLogic(imgDataToProcess) {
+                const imageData = this.cloneImageData(imgDataToProcess); const data = imageData.data;
+                let rSum = 0, gSum = 0, bSum = 0; const pixelCount = data.length / 4;
+                for (let i = 0; i < data.length; i += 4) { rSum += data[i]; gSum += data[i + 1]; bSum += data[i + 2]; }
+                const rAvg = rSum / pixelCount; const gAvg = gSum / pixelCount; const bAvg = bSum / pixelCount;
+                const avgGray = (rAvg + gAvg + bAvg) / 3;
+                const rBalance = rAvg > 0 ? avgGray / rAvg : 1; const gBalance = gAvg > 0 ? avgGray / gAvg : 1; const bBalance = bAvg > 0 ? avgGray / bAvg : 1;
+                for (let i = 0; i < data.length; i += 4) {
+                    data[i] = Math.max(0, Math.min(255, Math.round(data[i] * (1 + (rBalance - 1) * 0.3))));
+                    data[i + 1] = Math.max(0, Math.min(255, Math.round(data[i + 1] * (1 + (gBalance - 1) * 0.3))));
+                    data[i + 2] = Math.max(0, Math.min(255, Math.round(data[i + 2] * (1 + (bBalance - 1) * 0.3))));
+                }
+                return imageData;
+            }
+
+            applyAutoSaturationLogic(imgDataToProcess) { console.warn("applyAutoSaturationLogic not fully implemented."); return this.cloneImageData(imgDataToProcess); }
+            
+            _applyConvolution(imgData, kernel, divisor = 1, offset = 0) {
+                const src = imgData.data;
+                const width = imgData.width;
+                const height = imgData.height;
+                const output = this.ctx.createImageData(width, height); // Use this.ctx
+                const dst = output.data;
+                const kernelSize = Math.round(Math.sqrt(kernel.length));
+                const halfKernel = Math.floor(kernelSize / 2);
+
+                for (let y = 0; y < height; y++) {
+                    for (let x = 0; x < width; x++) {
+                        const dstOff = (y * width + x) * 4;
+                        let r = 0, g = 0, b = 0;
+                        for (let cy = 0; cy < kernelSize; cy++) {
+                            for (let cx = 0; cx < kernelSize; cx++) {
+                                const scy = Math.min(height - 1, Math.max(0, y + cy - halfKernel));
+                                const scx = Math.min(width - 1, Math.max(0, x + cx - halfKernel));
+                                const srcOff = (scy * width + scx) * 4;
+                                const wt = kernel[cy * kernelSize + cx];
+                                r += src[srcOff] * wt;
+                                g += src[srcOff + 1] * wt;
+                                b += src[srcOff + 2] * wt;
+                            }
+                        }
+                        dst[dstOff] = Math.max(0, Math.min(255, Math.round(r / divisor + offset)));
+                        dst[dstOff + 1] = Math.max(0, Math.min(255, Math.round(g / divisor + offset)));
+                        dst[dstOff + 2] = Math.max(0, Math.min(255, Math.round(b / divisor + offset)));
+                        dst[dstOff + 3] = src[dstOff + 3]; // Alpha
+                    }
+                }
+                return output;
+            }
+
+            applyAutoSharpnessLogic(imgDataToProcess) { // Basic Sharpness
+                const kernel = [0, -0.5, 0, -0.5, 3, -0.5, 0, -0.5, 0]; // Sum is 1
+                return this._applyConvolution(imgDataToProcess, kernel, 1, 0);
+            }
+            
+            applyUnsharpMaskLogic(imgDataToProcess, amount = 1.2, radius = 1) {
+                const originalData = this.cloneImageData(imgDataToProcess);
+                const blurredData = this._applyBoxBlur(originalData, radius);
+                const outputData = this.cloneImageData(originalData);
+                const o = outputData.data; const orig = originalData.data; const blur = blurredData.data;
+                for (let i = 0; i < o.length; i += 4) {
+                    o[i] = Math.max(0, Math.min(255, Math.round(orig[i] + (orig[i] - blur[i]) * amount)));
+                    o[i+1] = Math.max(0, Math.min(255, Math.round(orig[i+1] + (orig[i+1] - blur[i+1]) * amount)));
+                    o[i+2] = Math.max(0, Math.min(255, Math.round(orig[i+2] + (orig[i+2] - blur[i+2]) * amount)));
+                    o[i+3] = orig[i+3];
+                }
+                return outputData;
+            }
+
+            _applyBoxBlur(imgData, radius) {
+                const src = imgData.data; const width = imgData.width; const height = imgData.height;
+                const output = this.ctx.createImageData(width, height); const dst = output.data;
+                for (let y = 0; y < height; y++) {
+                    for (let x = 0; x < width; x++) {
+                        let r = 0, g = 0, b = 0, a = 0; let count = 0;
+                        for (let ky = -radius; ky <= radius; ky++) {
+                            for (let kx = -radius; kx <= radius; kx++) {
+                                const curY = Math.min(height - 1, Math.max(0, y + ky));
+                                const curX = Math.min(width - 1, Math.max(0, x + kx));
+                                const srcOff = (curY * width + curX) * 4;
+                                r += src[srcOff]; g += src[srcOff + 1]; b += src[srcOff + 2]; a += src[srcOff + 3]; count++;
+                            }
+                        }
+                        const dstOff = (y * width + x) * 4;
+                        dst[dstOff] = Math.round(r / count); dst[dstOff + 1] = Math.round(g / count);
+                        dst[dstOff + 2] = Math.round(b / count); dst[dstOff + 3] = Math.round(a / count);
+                    }
+                }
+                return output;
+            }
+
+            applyBlackAndWhiteLogic(imgDataToProcess) {
+                const imageData = this.cloneImageData(imgDataToProcess); const data = imageData.data;
+                for (let i = 0; i < data.length; i += 4) {
+                    const r = data[i]; const g = data[i + 1]; const b = data[i + 2];
+                    const gray = Math.round(0.299 * r + 0.587 * g + 0.114 * b);
+                    data[i] = gray; data[i + 1] = gray; data[i + 2] = gray;
+                }
+                return imageData;
+            }
+
+            _applyCorrection(logicFunction, description) {
+                if (!this.currentImageData) return; this.showLoading();
+                setTimeout(() => {
+                    try {
+                        this.currentImageData = logicFunction(this.currentImageData);
+                        this.ctx.putImageData(this.currentImageData, 0, 0);
+                        this.saveState(description);
+                    } catch (error) {
+                        console.error("Error applying correction:", description, error);
+                        alert("Ocorreu um erro ao aplicar a correção: " + description);
+                    } finally { this.hideLoading(); }
+                }, 50); 
+            }
+
+            applyAutoColorCorrection() { this._applyCorrection(this.applyAutoColorCorrectionLogic.bind(this), 'Correção Automática de Cor'); }
+            applyAutoBrightness() { this._applyCorrection(this.applyAutoBrightnessLogic.bind(this), 'Correção de Brilho'); }
+            applyAutoContrast() { this._applyCorrection(this.applyAutoContrastLogic.bind(this), 'Correção de Contraste'); }
+            applyAutoColorBalance() { this._applyCorrection(this.applyAutoColorBalanceLogic.bind(this), 'Equilíbrio de Cores'); }
+            applyAutoLevels() { this._applyCorrection(this.applyAutoLevelsLogic.bind(this), 'Correção de Níveis (Histograma)'); }
+            applyAutoSaturation() { this._applyCorrection(this.applyAutoSaturationLogic.bind(this), 'Correção de Saturação'); }
+            applyAutoSharpness() { this._applyCorrection(this.applyAutoSharpnessLogic.bind(this), 'Nitidez Automática (Básica)'); } 
+            applyUnsharpMask() { this._applyCorrection((data) => this.applyUnsharpMaskLogic(data, 1.2, 1), "Otimizar Nitidez (Avançado)"); } 
+            applyBlackAndWhite() { this._applyCorrection(this.applyBlackAndWhiteLogic.bind(this), 'Conversão Preto e Branco'); }
+
+            applyAllCorrections() {
+                if (!this.currentImageData) return; this.showLoading();
+                setTimeout(() => {
+                    try {
+                        let d = this.currentImageData;
+                        d = this.applyAutoLevelsLogic(d);
+                        d = this.applyAutoColorBalanceLogic(d);
+                        d = this.applyAutoContrastLogic(d);
+                        d = this.applyUnsharpMaskLogic(d, 0.8, 1); // Slightly milder unsharp mask for "all"
+                        d = this.applyAutoSaturationLogic(d); 
+                        this.currentImageData = d; this.ctx.putImageData(d, 0, 0);
+                        this.saveState('Aplicar Todas as Correções');
+                    } catch (e) { console.error("Error in all corrections:", e); alert("Erro ao aplicar todas as correções."); }
+                    finally { this.hideLoading(); }
+                }, 50);
+            }
+
+            download() {
+                if (!this.currentImageData) return;
+                const imageType = 'image/png'; // Save as PNG for lossless quality
+                const quality = 1.0; // Ignored for PNG but good practice to have
+
+                const dataUrl = this.canvas.toDataURL(imageType, quality);
+                const link = document.createElement('a');
+                link.download = `edited_image_${Date.now()}.png`; 
+                link.href = dataUrl;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => { window.photoEditor = new PhotoEditor(); });
+    </script>
+</body>
+</html>
