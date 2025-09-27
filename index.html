@@ -142,7 +142,6 @@ function getFeriados(ano) {
     { dia: 25, mes: 11, nome: "Natal" },
     { dia: 22, mes: 4, nome: "Feriado de Leiria" }
   ];
-  // Feriados móveis
   let sextaSanta = new Date(pascoa); sextaSanta.setDate(pascoa.getDate() - 2);
   let corpoDeus = new Date(pascoa); corpoDeus.setDate(pascoa.getDate() + 60);
   let marinhaGrande = new Date(pascoa); marinhaGrande.setDate(pascoa.getDate() + 40);
@@ -157,7 +156,7 @@ function getFeriados(ano) {
 
 function isFeriado(data){
   const lista = getFeriados(data.getFullYear());
-  return lista.some(f => f.dia===data.getDate() && f.mes===data.getMonth());
+  return lista.find(f => f.dia===data.getDate() && f.mes===data.getMonth());
 }
 
 // ======= RENDER =======
@@ -181,6 +180,8 @@ function renderCalendar(){
 function renderItems(){
   document.getElementById('selectedDate').textContent=selectedDate.toDateString();
   const ul=document.getElementById('itemsList'); ul.innerHTML="";
+  
+  // compromissos normais
   items.filter(i=>i.date===selectedDate.toDateString()).forEach(i=>{
     let li=document.createElement('li');
     li.textContent=i.title+" ("+i.creator+") ";
@@ -191,11 +192,20 @@ function renderItems(){
     }
     ul.appendChild(li);
   });
+
+  // feriados
+  let f = isFeriado(selectedDate);
+  if(f){
+    let li=document.createElement('li');
+    li.textContent="📅 "+f.nome+" (Feriado)";
+    ul.appendChild(li);
+  }
 }
 
 loadItems();
 </script>
 </body>
 </html>
+
 
 
