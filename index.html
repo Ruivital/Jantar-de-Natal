@@ -1,297 +1,1391 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="pt-PT">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Jantar de Natal - Restaurante A Nini</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Horário Equipas SB Vidros 2026</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap">
 <style>
-:root {
-    --bg: #fff8f0;
-    --text: #1b1b1b;
-    --primary: #c0392b; 
-    --accent: #f1c40f;  
-    --secondary: #27ae60;
-    --container-bg: #fff3e6;
-    --snow-color: #fff;
-}
-
-body {
-    font-family: 'Poppins', sans-serif;
-    background-color: var(--bg);
-    color: var(--text);
-    margin: 0;
-    padding: 20px;
-    text-align: center;
-    overflow-x: hidden;
-    font-weight: 600;
-}
-
-.flyer-container {
-    max-width: 700px;
-    margin: 0 auto;
-    background-color: var(--container-bg);
-    border: 5px solid var(--secondary);
-    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-    padding: 30px;
-    border-radius: 12px;
-    position: relative;
-    overflow: hidden;
-    animation: fadeIn 1s ease-out forwards;
-}
-
-@keyframes fadeIn {
-    0% { opacity: 0; transform: translateY(20px); }
-    100% { opacity: 1; transform: translateY(0); }
-}
-
-/* Cabeçalho natalício */
-.cabecalho-natal span {
-    font-size: 28px;
-    display: inline-block;
-    animation: swing 2s infinite ease-in-out;
-    transform-origin: 50% 50%;
-}
-.cabecalho-natal span:nth-child(1) { animation-delay: 0s; }
-.cabecalho-natal span:nth-child(2) { animation-delay: 0.2s; }
-.cabecalho-natal span:nth-child(3) { animation-delay: 0.4s; }
-@keyframes swing {
-    0%,100%{ transform: rotate(0deg); }
-    50%{ transform: rotate(15deg); }
-}
-
-/* Títulos */
-.titulo-principal {
-    font-family: 'Playfair Display', serif;
-    font-size: 44px;
-    color: var(--primary);
-    margin-bottom: 5px;
-    text-shadow: 2px 2px 5px rgba(0,0,0,0.2);
-    line-height: 1.1;
-}
-.sub-titulo {
-    font-weight: 700;
+  /* Variáveis Padrão (Tema Escuro) */
+  :root{
+    --bg:#121212; /* Fundo escuro */
+    --card:#1f1f1f; /* Cartões mais escuros */
+    --muted:#a0a0a0; /* Texto secundário (cinza claro) */
+    --text-primary:#f0f0f0; /* Texto principal (branco/claro) */
+    --border-color: rgba(255,255,255,0.08); /* Cor da borda clara */
+    --shadow-color: rgba(0,0,0,0.2);
+    --highlight-color: #0b6bff;
+  }
+  /* Tema Claro (Adicionado) */
+  html[data-theme='light']{
+    --bg:#f5f6f8;
+    --card:#ffffff;
+    --muted:#6b6f76;
+    --text-primary:#222;
+    --border-color: rgba(0,0,0,0.1);
+    --shadow-color: rgba(0,0,0,0.1);
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family:Roboto, system-ui, -apple-system, "Segoe UI", "Helvetica Neue", Arial;
+    background:var(--bg);
+    color:var(--text-primary);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding:18px;
+    transition:background-color .3s;
+  }
+  header{
+    width:100%;
+    max-width:1100px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:12px;
+    margin-bottom:12px;
+  }
+  h1{margin:0;font-size:20px;font-weight:600}
+  .sub{color:var(--muted);font-size:13px}
+  .controls{
+    display:flex;gap:8px;align-items:center;
+  }
+  .btn{
+    background:var(--card);
+    border-radius:10px;
+    padding:8px 12px;
+    border:1px solid var(--border-color);
+    cursor:pointer;
+    font-weight:500;
+    color:var(--text-primary);
+    box-shadow:0 1px 0 var(--shadow-color);
+    transition:background .2s, border .2s;
+  }
+  .icon-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-primary);
+    cursor: pointer;
     font-size: 20px;
-    color: var(--secondary);
-    border-bottom: 3px solid var(--accent);
-    padding-bottom: 10px;
-    margin-bottom: 25px;
-}
-
-/* Detalhes evento */
-.detalhes-evento {
-    background-color: var(--primary);
-    color: white;
-    padding: 12px;
-    margin-bottom: 25px;
-    border-radius: 8px;
-    font-weight: 700;
-    font-size: 18px;
-    animation: pulse 2s infinite;
-}
-@keyframes pulse {
-    0%,100%{ transform: scale(1); }
-    50%{ transform: scale(1.05); }
-}
-
-/* Ementa mais elegante */
-.ementa-secao {
-    text-align: left;
-    margin-bottom: 30px;
-    padding: 15px 20px;
-    background-color: #fff1e0;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-}
-.ementa-secao h3 {
-    text-align: center;
-    color: var(--primary);
-    font-family: 'Playfair Display', serif;
-    font-size: 26px;
-    margin-bottom: 20px;
-}
-.ementa-secao h4 {
-    font-family: 'Playfair Display', serif;
-    font-size: 20px;
-    color: var(--secondary);
-    border-left: 4px solid var(--accent);
-    padding-left: 10px;
-    margin-top: 15px;
+    padding: 8px;
+    border-radius: 50%;
+    transition: background-color .2s;
+  }
+  .icon-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+  html[data-theme='light'] .icon-btn:hover {
+    background: rgba(0, 0, 0, 0.05);
+  }
+  
+  /* Estrutura de Meses */
+  .calendar-wrap{
+    width:100%;
+    max-width:1100px;
+    background:transparent;
+    padding:0;
+    border-radius:12px;
+  }
+  /* Controlo de Navegação */
+  .month-navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 16px;
     margin-bottom: 10px;
-}
-.ementa-secao ul {
-    list-style: none;
-    padding-left: 0;
-    margin: 0 0 10px 0;
-}
-.ementa-secao ul li {
-    padding: 6px 0;
-    border-bottom: 1px dashed var(--text);
-    opacity: 0.85;
-}
-
-/* Preço destacado */
-.destaque-preco {
-    background-color: var(--secondary);
-    color: var(--accent);
-    padding: 20px;
-    margin: 25px 0;
-    font-size: 32px;
+  }
+  .month-container {
+    margin-top: 24px;
+    padding: 18px 0 18px 0;
+    background: var(--card);
+    border-radius: 12px;
+    box-shadow: 0 4px 10px var(--shadow-color);
+    border: 1px solid var(--border-color);
+    transition: background-color .3s, border-color .3s;
+  }
+  .month-container:first-of-type {
+    margin-top: 0;
+  }
+  .month-header {
+    display: flex;
+    justify-content: flex-start;
+    align-items: baseline;
+    padding: 0 16px;
+  }
+  /* Estilos para Modo Mensal (Único) */
+  .single-month-mode .month-navigation {
+    padding: 0;
+    margin-bottom: 0;
+  }
+  .single-month-mode .month-container {
+    padding-top: 8px;
+    margin-top: 0;
+  }
+  .single-month-mode .month-header {
+    display: none;
+  }
+  .month-title {
+    font-size: 18px;
     font-weight: 700;
-    border-radius: 10px;
-    letter-spacing: 2px;
-    animation: glow 2s infinite alternate;
-}
-@keyframes glow {
-    0% { box-shadow: 0 0 5px var(--accent); }
-    100% { box-shadow: 0 0 20px var(--accent); }
-}
+    margin: 0;
+    color: var(--text-primary);
+  }
+  
+  /* --- Estilos da Vista Padrão (Calendário Grid) --- */
+  .weekdays{
+    display:grid;
+    grid-template-columns:repeat(7,1fr);
+    gap:6px;
+    margin-bottom:6px;
+    width: 100;
+  }
+  .weekday{
+    text-align:center;font-size:14px;color:var(--muted);
+  }
+  .calendar{
+    display:grid;
+    grid-template-columns:repeat(7,1fr);
+    gap:6px;
+    width: 100%;
+  }
+  .day{
+    background:var(--bg);
+    border-radius:10px;
+    padding:8px;
+    min-height:88px;
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-start;
+    position:relative;
+    cursor:pointer;
+    transition:transform .14s ease, box-shadow .14s ease, background-color .2s;
+    border:1px solid var(--border-color);
+  }
+  .day:hover{transform:translateY(-4px); box-shadow:0 8px 20px var(--shadow-color)}
+  .date{
+    display:flex;justify-content:center;align-items:center;font-weight:600;color:var(--text-primary);font-size:13px;
+  }
+  .badges{
+    margin-top:8px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px;
+    align-items:center;
+    min-height:28px;
+  }
+  .shift{
+    display:inline-flex;
+    width:28px;height:28px;border-radius:50%;
+    align-items:center;justify-content:center;color:#fff;font-weight:700;
+    font-size:13px;
+    border:2px solid rgba(0,0,0,0.2);
+    box-shadow:0 1px 0 rgba(255,255,255,0.1) inset;
+    flex:0 0 auto;
+  }
+  /* Cores dos turnos */
+  .A{background:#ffd700;color:#222}
+  .B{background:#0b6b2f}
+  .C{background:#1e90ff}
+  .D{background:#ff00d4}
+  .E{background:#8b0000}
+  
+  /* --- Estilos da Nova Vista em Lista --- */
+  .list-container {
+    width: 100%;
+    max-width: 1100px;
+    background: var(--card);
+    border-radius: 12px;
+    box-shadow: 0 4px 10px var(--shadow-color);
+    border: 1px solid var(--border-color);
+    transition: background-color .3s, border-color .3s;
+    margin-top: 24px;
+    overflow-x: auto;
+  }
+  .list-container:first-of-type {
+    margin-top: 0;
+  }
+  .list-header, .list-row {
+    display: grid;
+    /* Colunas: Dia, Dia Sem, Turnos (6 colunas) */
+    grid-template-columns: 50px 70px 1fr; 
+    gap: 0;
+    padding: 8px 12px;
+    align-items: center;
+    min-width: 700px; 
+  }
+  .list-header {
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--text-primary);
+    background: var(--card);
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    border-bottom: 1px solid var(--border-color);
+  }
+  .list-row {
+    font-size: 14px;
+    cursor: pointer;
+    border-top: 1px dashed var(--border-color);
+  }
+  .list-row:first-of-type {
+    border-top: none;
+  }
+  .list-row:hover {
+    background: rgba(255, 255, 255, 0.05);
+  }
+  html[data-theme='light'] .list-row:hover {
+    background: rgba(0, 0, 0, 0.03);
+  }
+  .list-day-num {
+    font-weight: 700;
+    text-align: center;
+  }
+  .list-weekday {
+    color: var(--muted);
+  }
+  .list-shifts {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr); /* M, T, N, Folga, Descanso, Férias */
+    gap: 4px;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .list-shift-item {
+    padding: 4px 0;
+    border-radius: 6px;
+    color: var(--text-primary);
+    /* Mantém as cores da equipa A-E (definidas em .A, .B, etc.) */
+  }
+  
+  /* Estilos para células vazias, folga e descanso */
+  .list-shift-item.empty { 
+    background: var(--bg); 
+    color: var(--muted); 
+    border: 1px dashed var(--border-color); 
+    opacity: 0.5;
+  }
+  
+  /* Estilo de Férias: usa a cor da equipa, mas adiciona uma borda de destaque */
+  .list-shift-item.ferias { 
+    border: 2px solid var(--highlight-color); 
+  }
+  
 
-/* Confirmação */
-.confirmacao-info {
-    font-size: 16px;
-    line-height: 1.6;
-    margin-top: 20px;
-    padding-top: 15px;
-    border-top: 2px solid var(--primary);
-}
-.prazo { color: var(--primary); font-weight: 700; font-size: 18px; margin-top: 10px; margin-bottom: 15px; }
+  /* popup */
+  .overlay{position:fixed;inset:0;background:rgba(0,0,0,0.75);display:none;z-index:60}
+  .popup{
+    position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);
+    background:var(--card);
+    color:var(--text-primary);
+    padding:16px;border-radius:12px;box-shadow:0 12px 40px rgba(0,0,0,0.5);
+    width:320px;max-width:92vw;display:none;z-index:70;
+  }
+  .popup h2{margin:0 0 8px;font-size:16px}
+  .popup .row{
+    display:flex;align-items:center;justify-content:flex-start;
+    padding:6px 0;
+    border-top:1px dashed rgba(255,255,255,0.1);
+  }
+  html[data-theme='light'] .popup .row {
+    border-top: 1px dashed rgba(0,0,0,0.1);
+  }
+  .popup .row:first-of-type{border-top:0;padding-top:0}
+  .popup .shiftLabel{display:flex;gap:8px;align-items:center}
+  .popup .muted{color:var(--muted);font-size:13px}
+  .closeBtn{
+    margin-top:8px;display:block;width:100%;padding:8px;border-radius:8px;border:0;
+    background:var(--highlight-color);color:white;font-weight:600;cursor:pointer
+  }
+  pre{
+    white-space:pre-wrap;word-break:break-word;font-size:12px;
+    color:var(--muted);
+  }
 
-/* Flocos de neve */
-.snowflake {
+  /* JANELA DE CONFIGURAÇÕES */
+  #settings-sidebar {
     position: fixed;
-    top: -10px;
-    z-index: 9999;
-    font-size: 1em;
-    color: var(--snow-color);
-    user-select: none;
-    pointer-events: none;
-    animation: fall linear infinite;
-    text-shadow: 0 0 3px #fff;
-}
-@keyframes fall {
-    0% { transform: translateY(-10px) rotate(0deg); opacity:0.5; }
-    50% { opacity:1; }
-    100% { transform: translateY(110vh) rotate(360deg); opacity:0.5; }
-}
+    top: 0;
+    right: 0;
+    width: 300px;
+    height: 100%;
+    background: var(--card);
+    box-shadow: -4px 0 10px var(--shadow-color);
+    z-index: 100;
+    transform: translateX(100%);
+    transition: transform 0.3s ease-in-out;
+    padding: 20px;
+    overflow-y: auto;
+    border-left: 1px solid var(--border-color);
+  }
+  #settings-sidebar.open {
+    transform: translateX(0);
+  }
+  #settings-sidebar h3 {
+    margin-top: 0;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 10px;
+  }
+  .setting-group {
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px dashed var(--border-color);
+  }
+  .setting-group label {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 10px;
+  }
+  .radio-group {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap; 
+  }
+  .radio-group input[type="radio"] {
+    display: none;
+  }
+  .radio-group label {
+    display: inline-block;
+    padding: 8px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: normal;
+    background: var(--bg);
+    transition: background 0.2s, border-color 0.2s;
+    white-space: nowrap;
+    flex: 1 1 auto;
+    text-align: center;
+  }
+  .radio-group input[type="radio"]:checked + label {
+    background: var(--highlight-color);
+    color: white;
+    border-color: var(--highlight-color);
+  }
 
-/* Pai Natal */
-.santa-walk {
-    position: fixed;
-    font-size: 50px;
-    z-index: 10000;
-    opacity: 0;
-    transition: opacity 1s;
-}
+  /* responsivo */
+  @media (max-width:640px){
+    .day{min-height:86px;padding:6px}
+    .shift{width:26px;height:26px;font-size:12px}
+    .popup{width:92%}
+    .weekdays, .calendar { padding: 0 8px; }
+    #settings-sidebar { width: 100%; }
+    /* Ajuste para vista em lista em ecrãs pequenos */
+    .list-header, .list-row {
+        min-width: 550px; 
+    }
+  }
 </style>
 </head>
-<body>
+<body data-theme="dark">
+<header>
+  <div>
+    <h1>2026</h1>
+    <div class="sub">SB Vidros</div>
+  </div>
+  <div class="controls">
+    <button class="icon-btn" id="settingsBtn" aria-label="Configurações">⚙️</button>
+  </div>
+</header>
 
-<div class="flyer-container">
-    <div class="cabecalho-natal">
-        <span style="color: var(--primary);">🎄</span> 
-        <span style="color: var(--secondary);">🦌</span> 
-        <span style="color: var(--accent);">🎅</span>
+<div class="month-navigation" id="month-navigation" style="display:none;">
+    <button class="icon-btn" id="prevMonthBtn" aria-label="Mês Anterior">◀</button>
+    <h2 class="month-title" id="currentMonthTitle"></h2>
+    <button class="icon-btn" id="nextMonthBtn" aria-label="Mês Seguinte">▶</button>
+</div>
+
+<main class="calendar-wrap" id="calendar-container">
+  </main>
+<div class="overlay" id="overlay"></div>
+<div class="popup" id="popup" role="dialog" aria-modal="true" aria-labelledby="popupTitle">
+  <h2 id="popupTitle"></h2>
+  <div id="popupContent"></div>
+  <button class="closeBtn" id="closePopup">Fechar</button>
+</div>
+
+<div id="settings-sidebar">
+    <button class="icon-btn" style="position:absolute; top:10px; right:10px;" onclick="closeSettings()">❌</button>
+    <h3>Configurações</h3>
+    
+    <div class="setting-group">
+        <label>Tema de Cor</label>
+        <div class="radio-group">
+            <input type="radio" id="theme-dark" name="theme" value="dark" checked><label for="theme-dark">Escuro</label>
+            <input type="radio" id="theme-light" name="theme" value="light"><label for="theme-light">Claro</label>
+        </div>
     </div>
 
-    <h1 class="titulo-principal">Convívio de Natal</h1>
-    <h2 class="sub-titulo">
-    Restaurante nini
-    <br>
-    <a href="https://www.google.com/maps/place/Restaurante+Nini/@39.7480953,-8.9121329,17z/data=!3m1!4b1!4m6!3m5!1s0xd220c3b160cbef7:0x8d0f32d84ddf090e!8m2!3d39.7480953!4d-8.9121329!16s%2Fg%2F11cn8q2v01?entry=ttu&g_ep=EgoyMDI1MTAyMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" style="text-decoration: none; color: var(--secondary); font-size: 16px; font-weight: 400; display: inline-flex; align-items: center; margin-top: 5px;">
-        <span style="margin-right: 5px;">📍</span> Localização no Mapa
-    </a>
-</h2>
-
-    <div class="detalhes-evento">📅 12 de Dezembro | ⏰ 19:30H</div>
-
-    <div class="ementa-secao">
-        <h3>A Nossa Ementa Especial</h3>
-        <h4>ENTRADAS</h4>
-        <ul>
-            <li>Pão, Patê, Azeitonas, Manteiga</li>
-            <li>Tábua de Queijo e Enchidos</li>
-            <li>Salada de Pota</li>
-        </ul>
-        <h4>PRATO PRINCIPAL (Escolha 1)</h4>
-        <ul>
-            <li>Bacalhau com Natas e Gambas</li>
-            <li>Lombinhos de Porco com Molho de Mostarda e Mel</li>
-        </ul>
-        <p style="text-align:center;font-style:italic;color:var(--secondary);">Opção Vegetariana Disponível</p>
-        <h4>SOBREMESA</h4>
-        <ul>
-            <li>Fruta da Época, Doce Misto e Café</li>
-        </ul>
+    <div class="setting-group">
+        <label>Modo de Exibição</label>
+        <div class="radio-group">
+            <input type="radio" id="display-grid" name="display-mode" value="grid" checked><label for="display-grid">Vista Padrão</label>
+            <input type="radio" id="display-list" name="display-mode" value="list"><label for="display-list">Vista em Lista</label>
+        </div>
     </div>
-
-    <div class="ementa-secao" style="border-top:1px solid var(--text);opacity:0.5;">
-        <h4>BEBIDAS INCLUÍDAS:</h4>
-        <ul>
-            <li>Sangria, Vinho da Casa</li>
-            <li>Imperial, Águas e Sumos</li>
-        </ul>
-        <h4>NÃO INCLUÍDO:</h4>
-        <ul>
-            <li>Digestivos, Bolo e Espumante</li>
-        </ul>
-    </div>
-
-    <div class="destaque-preco">INVESTIMENTO POR PESSOA: 26 €</div>
-
-    <div class="confirmacao-info">
-        <h3>RESERVA E PAGAMENTO</h3>
-        <p class="prazo">PRAZO LIMITE: 30 de novembro</p>
-        <p>O pagamento do valor total (26 €) valida a sua reserva. Contamos com a sua confirmação!</p>
-        <p style="font-weight:700;margin-top:20px;color:var(--primary);">
-            Para informações e detalhes de pagamento:<br>
-            <span style="color:var(--text); font-weight:600;">Rui Vital. Carla Monteiro, Vitor Rolo, Vitor Paulino</span>
-        </p>
+    
+    <div class="setting-group">
+        <label>Visualização de Meses</label>
+        <div class="radio-group">
+            <input type="radio" id="view-all" name="view-mode" value="all" checked><label for="view-all">Todos os Meses</label>
+            <input type="radio" id="view-single" name="view-mode" value="single"><label for="view-single">Mês Único</label>
+        </div>
     </div>
 </div>
 
 <script>
-// Flocos de neve
-const snowContainer = document.createElement('div');
-document.body.appendChild(snowContainer);
-for(let i=0;i<40;i++){
-    const flake = document.createElement('div');
-    flake.classList.add('snowflake');
-    flake.style.left = Math.random()*100+'vw';
-    flake.style.fontSize = (10+Math.random()*20)+'px';
-    flake.style.animationDuration = (5+Math.random()*5)+'s';
-    flake.innerHTML='❄';
-    snowContainer.appendChild(flake);
+/* ======= AJUSTÁVEIS (CORRIGIDO E OTIMIZADO PARA 2026) ======= */
+const year = 2026; 
+
+// Datas Móveis e Locais em 2026 (Variáveis auxiliares - NECESSÁRIAS para a função ICS e cálculos)
+const marinhaGrande = { day: 14, month: 5 }; // Quinta-feira da Ascensão: 14 de MAIO
+const diaVidreiro = { day: 18, month: 1 }; // 18 de JANEIRO (Usado para gerar o ficheiro ICS)
+const pascoa = { day: 5, month: 4 }; // Domingo de Páscoa: 5 de ABRIL
+const carnaval = { day: 17, month: 2 }; // Carnaval: 17 de FEVEREIRO
+
+// Feriados Nacionais, Municipais e Datas Especiais (Todas as datas com legenda)
+const nationalHolidays = [
+  // Feriados Fixos Nacionais
+  { date: '01-01', name: 'Ano Novo' },
+  { date: '25-04', name: 'Dia da Liberdade' },
+  { date: '01-05', name: 'Dia do Trabalhador' },
+  { date: '10-06', name: 'Dia de Portugal' },
+  { date: '15-08', name: 'Assunção de Nossa Senhora' },
+  { date: '05-10', name: 'Implantação da República' },
+  { date: '01-11', name: 'Todos os Santos' },
+  { date: '01-12', name: 'Restauração da Independência' },
+  { date: '08-12', name: 'Imaculada Conceição' },
+  { date: '25-12', name: 'Natal' },
+
+  // Feriados Fixos Locais
+  { date: '18-01', name: 'Dia do Vidreiro' }, // ⬅️ Mantido aqui para aparecer a legenda (popup)
+
+  // Feriados Móveis Nacionais (Datas de 2026)
+  { date: '17-02', name: 'Carnaval' }, 
+  { date: '03-04', name: 'Sexta-feira Santa' }, 
+  { date: '05-04', name: 'Domingo de Páscoa' }, 
+  { date: '04-06', name: 'Corpo de Deus' }, 
+
+  // Feriados Móveis Municipais (Datas de 2026)
+  { date: '14-05', name: 'Feriado Municipal (Ascensão)' } 
+];
+
+// Outros Eventos e Datas Especiais (Estações e Mudança de Hora)
+const events = [
+  { date: '20-03', name: 'Início da Primavera' },
+  { date: '21-06', name: 'Início do Verão' },
+  { date: '23-09', name: 'Início do Outono' },
+  { date: '21-12', name: 'Início do Inverno' },
+  { date: '29-03', name: 'Mudança para Hora de Verão' }, 
+  { date: '25-10', name: 'Mudança para Hora de Inverno' } 
+];
+
+const scheduleText = `A C D E B -
+E A C D B -
+D E A C B -
+C D E A B -
+A C D E B -
+E A B D C -
+D E A B C -
+B D E A C -
+A B D E C -
+E A B D C -
+D E A B C -
+B D E A C -
+C B A E D -
+E C B A D -
+A E C B D -
+B A E C D -
+C B A E D -
+E C B A D -
+A E C B D -
+B A D C E -
+C B A D E -
+D C B A E -
+A D C B E -
+B A D C E -
+C B A D E -
+D C B A E -
+A D C B E -
+E B D C A -
+C E B D A -
+D C E B A -
+B D C E A -
+E B D C A -
+C E B D A -
+D C E B A -
+B D C E A -
+E A D C B -
+C E A D B -
+D C E A B -
+A D C E B -
+E A D C B -
+C E A D B -
+B D E A C -
+A B D E C -
+E A B D C -
+D E A B C -
+B D E A C -
+A B D E C -
+E A B D C -
+C E A B D -
+B C E A D -
+A B C E D -
+E A B C D -
+C E A B D -
+B C E A D -
+A B C E D -
+E A B C D -
+C D A B E -
+B C D A E -
+A B C D E -
+D A B C E -
+C D A B E -
+B C D A E -
+A B C D E -
+D A B C E -
+C D E B A -
+B C D E A -
+E B C D A -
+D E B C A -
+C D E B A -
+B C D E A -
+E A C D B -
+D E A C B -
+C D E A B -
+A C D E B -
+E A C D B -
+D E A C B -
+C D E A B -
+A B D E C -
+E A B D C -
+D E A B C - 
+B D E A C -
+A B D E C -
+E A B D C -
+D E A B C -
+B C E A D -
+A B C E D -
+E A B C D -
+C E A B D -
+B C E A D -
+A B C E D -
+D A B C E -
+C D A B E - 
+B C D A E -
+A B C D E -
+D A B C E -
+C D A B E -
+B C D A E -
+A B C D E -
+D E B C A -
+C D E B A -
+B C D E A -
+E B C D A -
+D E B C A -
+C D E B A -
+B C D E A -
+E B C D A -
+D E A C B -
+C D E A B -
+A C D E B -
+E A C D B -
+D E A C B -
+C D E A B -
+A B D E C -
+E A B D C -
+D E A B C -
+B D E A C -
+A B D E C -
+E A B D C -
+D E A B C -
+C B E A D -
+A C B E D -
+E A C B D -
+B E A C D -
+C B E A D -
+A C B E D -
+E A C B D -
+B D A C E -
+C B D A E -
+A C B D E -
+D A C B E -
+B D A C E -
+C B D A E -
+E C B D A -
+D E C B A -
+B D E C A -
+C B D E A -
+E C B D A -
+D E C B A -
+B D E C - A
+C A D E - B
+E C A D - B
+D E C A - B
+A D E C - B
+C A D E - B
+E C A D - B
+D E C A - B
+A D E C - B
+C A D E - B
+E C A D - B
+D E C A - B
+A D E C - B
+C A D E - B
+E C A D - B
+D E B A - C
+A D E B - C
+B A D E - C
+E B A D - C
+D E B A - C
+A D E B - C
+B A D E - C
+E B A D - C
+D E B A - C
+A D E B - C
+B A D E - C
+E B A D - C
+D E B A - C
+A D E B - C
+B A C E - D
+E B A C - D
+C E B A - D
+A C E B - D
+B A C E - D
+E B A C - D
+C E B A - D
+A C E B - D
+B A C E - D
+E B A C - D
+C E B A - D
+A C E B - D
+B A C E - D
+E B A C - D
+C D B A - E
+A C D B - E
+B A C D - E
+D B A C - E
+C D B A - E
+A C D B - E
+B A C D - E
+D B A C - E
+C D B A - E
+A C D B - E
+B A C D - E
+D B A C - E
+C D B A - E
+A C D B - E
+B E C D - A
+D B E C - A
+C D B E - A
+E C D B - A
+B E C D - A
+D B E C - A
+C D B E - A
+E C D B - A
+B E C D - A
+D B E C - A
+C D B E - A
+E C D B - A
+B E C D - A
+D B E C - A
+C D A E - B
+E C D A - B
+A E C D - B
+D A E C - B
+C D A E - B
+E C D A - B
+A E C D - B
+D A E C - B
+C D A E - B
+E C D A - B
+A E C D - B
+D A E C - B
+C D A E - B
+E C D A - B
+A E B D - C
+D A E B - C
+B D A E - C
+E B D A - C
+A E B D - C
+D A E B - C
+B D A E - C
+E B D A - C
+A E B D - C
+D A E B - C
+B D A E - C
+E B D A - C
+A E B D - C
+D A E B - C
+B C A E - D
+E B C A - D
+A E B C - D
+C A E B - D
+B C A E - D
+E B C A - D
+A E B C - D
+C A E B - D
+B C A E - D
+E B C A - D
+A E B C - D
+C A E B - D
+B C A E - D
+E B C A - D
+A D B C - E
+C A D B - E
+B C A D - E
+D B C A - E
+A D B C - E
+C A D B - E
+B C A D - E
+D B C A - E
+A D B C - E
+C A D B - E
+B C A D - E
+D B C A - E
+A D B C - E
+C A D B - E
+B C E D - A
+D B C E - A
+E D B C - A
+C E D B - A
+B C E D - A
+D B C E - A
+E D B C - A
+C E D B - A
+B C E D - A
+D B C E - A
+E D B C - A
+C E D B - A
+B C E D - A
+D B C E - A
+E D B C - A
+C E D B - A
+A C E D B -
+D A C E B -
+E D A C B -
+C E D A B -
+A C E D B -
+D A C E - B
+E D A C - B
+B E D A C -
+A B E D C -
+D A B E C -
+E D A B - C
+B E D A - C
+A B E D - C
+C A B E - D
+E C A B - D
+B E C A D -
+A B E C D -
+C A B E D -
+E C A B D -
+B E C A D -
+A B D C - E
+C A B D - E
+D C A B E -
+B D C A E -
+A B D C E -
+C A B D E -
+D C A B E -
+B D C A E -
+E B D C A -
+C E B D A -
+D C E B A -
+B D C E A -
+E B D C A -
+C E B D A -
+D C E B A -
+A D C E B -
+E A D C B -
+C E A D B -
+D C E A B -
+A D C E B -
+E A D C B -
+C E A D B -
+B D E A C -
+A B D E C -
+E A B D C -
+D E A B C -
+B D E A C -
+A B C E D -
+E A B C D -
+C E A B D -
+B C E A D -
+A B C E D -
+E A B C D -
+C E A B D -
+B C D A E -
+A B C D E -
+D A B C E -
+C D A B E -
+B C D A E -
+A B C D E -
+D A B C E -
+C D E B A -
+B C D E A -
+E B C D A -
+D E B C A -
+C D E B A -
+B C D E A -
+E B C D A -
+D E A C B -
+C D E A B -
+A C D E B -
+E A C D B -
+D E A C B -
+C D E A B -
+A C D E B -
+E A B D C -
+D E A B C -
+B D E A C -
+A B D E C -
+E A B D C -
+D E A B C -
+B D E A C -
+A B C E D -
+E A B C D -`; 
+
+/* ======= parser e construção do array (MANTIDO) ======= */
+function buildScheduleArray(text) {
+  const lines = text.split(/\r?\n/);
+  const arr = [];
+  for (let raw of lines) {
+    if (!raw) continue;
+    const matches = (raw.match(/[A-Ea-e\-]/g) || []).map(ch => ch.toUpperCase());
+    if (!matches.length) continue;
+    const s = matches.join('').slice(0,6);
+    arr.push(s.padEnd(6,'-'));
+  }
+  if (arr.length < 365) {
+    const missing = 365 - arr.length;
+    for (let i=0;i<missing;i++) arr.push('------');
+  } else if (arr.length > 366) { 
+    arr.splice(366); 
+  }
+  return arr;
+}
+const schedule = buildScheduleArray(scheduleText);
+
+/* ======= Variáveis de Estado (MANTIDO) ======= */
+let currentMonth = new Date().getMonth(); 
+let viewMode = localStorage.getItem('viewMode') || 'all'; 
+let displayMode = localStorage.getItem('displayMode') || 'grid'; 
+
+/* ======= Elementos DOM (AJUSTADO: REMOÇÃO de gotoDateBtn e dateSelector) ======= */
+const calendarContainer = document.getElementById('calendar-container');
+const overlay = document.getElementById('overlay');
+const popup = document.getElementById('popup');
+const popupTitle = document.getElementById('popupTitle');
+const popupContent = document.getElementById('popupContent');
+const closePopupBtn = document.getElementById('closePopup');
+const settingsBtn = document.getElementById('settingsBtn'); 
+const settingsSidebar = document.getElementById('settings-sidebar'); 
+const monthNavigation = document.getElementById('month-navigation'); 
+const currentMonthTitle = document.getElementById('currentMonthTitle'); 
+
+const shiftNames = [
+  'Manhã',
+  'Tarde',
+  'Noite',
+  'Folga',
+  'Descanso',
+  'Férias' 
+];
+const fullShiftNames = [
+  'Manhã (05:00–13:00)',
+  'Tarde (13:00–21:00)',
+  'Noite (21:00–05:00)',
+  'Folga',
+  'Descanso',
+  'Férias'
+];
+
+function formatDDMM(date){
+  const dd = String(date.getDate()).padStart(2,'0');
+  const mm = String(date.getMonth()+1).padStart(2,'0');
+  return dd + '-' + mm;
+}
+function getDayIndex(day, month) {
+    let index = 0;
+    for (let m = 0; m < month; m++) {
+        index += new Date(year, m + 1, 0).getDate();
+    }
+    return index + day - 1; 
 }
 
-// Pai Natal passeando
-function santaWalk() {
-    const santa = document.createElement('div');
-    santa.className='santa-walk';
-    santa.innerHTML='🎅';
-    document.body.appendChild(santa);
+const weekdayNames = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+function createWeekdaysHeader() {
+    const weekdaysEl = document.createElement('div');
+    weekdaysEl.className = 'weekdays';
+    weekdaysEl.setAttribute('aria-hidden', 'true');
+    weekdayNames.forEach(name => {
+        const day = document.createElement('div');
+        day.className = 'weekday';
+        day.textContent = name;
+        weekdaysEl.appendChild(day);
+    });
+    return weekdaysEl;
+}
 
-    const startY = Math.random()*60+10;
-    santa.style.top = startY + 'vh';
-    santa.style.left = '-60px';
-    santa.style.opacity = 1;
+/* ======= Função Principal: createCalendar (MANTIDO) ======= */
+function createCalendar(){
+  calendarContainer.innerHTML = '';
+  
+  let startMonth, endMonth;
+  if (viewMode === 'single') {
+      startMonth = currentMonth;
+      endMonth = currentMonth;
+      monthNavigation.style.display = 'flex';
+      const monthName = new Date(year, currentMonth, 1).toLocaleDateString('pt-PT', { month: 'long', year: 'numeric' });
+      currentMonthTitle.textContent = monthName.charAt(0).toUpperCase() + monthName.slice(1);
+  } else {
+      startMonth = 0;
+      endMonth = 11;
+      monthNavigation.style.display = 'none';
+  }
 
-    let progress=0;
-    const interval = setInterval(()=>{
-        progress+=0.5;
-        santa.style.left = (-60 + progress*3)+'px';
-        santa.style.top = startY + 10*Math.sin(progress/10) + 'vh';
-        if(progress*3>window.innerWidth+60){
-            clearInterval(interval);
-            santa.style.opacity=0;
-            setTimeout(()=>{document.body.removeChild(santa)},1000);
+  if (displayMode === 'grid') {
+      calendarContainer.classList.remove('single-month-mode'); 
+      renderGridMonths(startMonth, endMonth);
+  } else { 
+      calendarContainer.classList.add('single-month-mode'); 
+      renderListMonths(startMonth, endMonth);
+  }
+}
+
+/* --- Renderização: Modo Grelha (MANTIDO) --- */
+function renderGridMonths(startMonth, endMonth) {
+    let dayIndex = 0;
+    if (viewMode === 'single') {
+        calendarContainer.classList.add('single-month-mode');
+        for (let m = 0; m < startMonth; m++) {
+            dayIndex += new Date(year, m + 1, 0).getDate();
         }
-    },20);
-}
-setInterval(()=>{santaWalk();},15000+Math.random()*15000);
+    } else {
+        calendarContainer.classList.remove('single-month-mode');
+    }
 
+    for (let month = startMonth; month <= endMonth; month++) {
+        const firstDayOfMonth = new Date(year, month, 1);
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+        const startWeekday = firstDayOfMonth.getDay();
+
+        const monthContainer = document.createElement('div');
+        monthContainer.className = 'month-container';
+
+        if (viewMode === 'all') {
+            const monthHeader = document.createElement('div');
+            monthHeader.className = 'month-header';
+            const monthTitle = document.createElement('h2');
+            monthTitle.className = 'month-title';
+            let monthName = firstDayOfMonth.toLocaleDateString('pt-PT', { month: 'long' });
+            monthTitle.textContent = monthName.charAt(0).toUpperCase() + monthName.slice(1);
+            monthHeader.appendChild(monthTitle);
+            monthContainer.appendChild(monthHeader);
+        } 
+        
+        monthContainer.appendChild(createWeekdaysHeader());
+        const monthGrid = document.createElement('div');
+        monthGrid.className = 'calendar';
+        
+        for (let i = 0; i < startWeekday; i++) {
+            const blank = document.createElement('div');
+            blank.className = 'day';
+            blank.style.visibility = 'hidden';
+            monthGrid.appendChild(blank);
+        }
+
+        let lastWeekday = 0;
+        for (let day = 1; day <= daysInMonth; day++) {
+            const d = new Date(year, month, day);
+            lastWeekday = d.getDay();
+            
+            const dayEl = document.createElement('div');
+            dayEl.className = 'day';
+            dayEl.setAttribute('role','button');
+            dayEl.setAttribute('tabindex','0');
+            dayEl.id = `day-${dayIndex}`;
+
+            const dateDiv = document.createElement('div');
+            dateDiv.className='date';
+            dateDiv.textContent = d.getDate();
+            dayEl.appendChild(dateDiv);
+
+            const badges = document.createElement('div');
+            badges.className='badges';
+            const s = schedule[dayIndex] || '------';
+            
+            for (let i=0;i<5;i++){
+                const letter = s[i] || '-';
+                if (letter !== '-') {
+                    const sp = document.createElement('div');
+                    sp.className = 'shift ' + letter;
+                    sp.textContent = letter;
+                    badges.appendChild(sp);
+                }
+            }
+            dayEl.appendChild(badges);
+
+            const currentIdx = dayIndex;
+            dayEl.addEventListener('click', ()=> openPopup(new Date(d), currentIdx));
+            dayEl.addEventListener('keypress', (e)=>{ if(e.key==='Enter') openPopup(new Date(d), currentIdx); });
+
+            monthGrid.appendChild(dayEl);
+            dayIndex++;
+        }
+
+        const daysToCompleteWeek = (7 - lastWeekday) % 7;
+        if (daysToCompleteWeek > 0) {
+            for (let i = 0; i < daysToCompleteWeek; i++) {
+                const blank = document.createElement('div');
+                blank.className = 'day';
+                blank.style.visibility = 'hidden';
+                monthGrid.appendChild(blank);
+            }
+        }
+
+        monthContainer.appendChild(monthGrid);
+        calendarContainer.appendChild(monthContainer);
+    }
+}
+
+
+/* --- Renderização: Modo Lista (MANTIDO) --- */
+function renderListMonths(startMonth, endMonth) {
+    let dayIndex = 0;
+    if (viewMode === 'single') {
+        for (let m = 0; m < startMonth; m++) {
+            dayIndex += new Date(year, m + 1, 0).getDate();
+        }
+    }
+
+    const listContainer = document.createElement('div');
+    listContainer.className = 'list-container';
+    
+    // Header da Lista (Colunas) - ORDEM CORRETA: M, T, N, Folga, Descanso, Férias
+    const headerRow = document.createElement('div');
+    headerRow.className = 'list-header';
+    headerRow.id = 'list-header';
+    headerRow.innerHTML = `
+        <div class="list-day-num">Dia</div>
+        <div class="list-weekday">Semana</div>
+        <div class="list-shifts">
+            <div>${shiftNames[0]}</div>  <div>${shiftNames[1]}</div>  <div>${shiftNames[2]}</div>  <div>${shiftNames[3]}</div>  <div>${shiftNames[4]}</div>  <div style="color:var(--highlight-color)">Férias</div> </div>
+    `;
+    listContainer.appendChild(headerRow);
+
+    for (let month = startMonth; month <= endMonth; month++) {
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+        
+        if (viewMode === 'all') {
+             const monthTitle = document.createElement('h3');
+             monthTitle.style.padding = '12px 12px 4px 12px';
+             monthTitle.style.margin = '0';
+             monthTitle.style.fontWeight = '500';
+             monthTitle.style.color = 'var(--highlight-color)';
+             const monthName = new Date(year, month, 1).toLocaleDateString('pt-PT', { month: 'long' });
+             monthTitle.textContent = monthName.charAt(0).toUpperCase() + monthName.slice(1) + ' ' + year;
+             listContainer.appendChild(monthTitle);
+        }
+
+        for (let day = 1; day <= daysInMonth; day++) {
+            const d = new Date(year, month, day);
+            const s = schedule[dayIndex] || '------';
+            
+            const row = document.createElement('div');
+            row.className = 'list-row';
+            row.setAttribute('role','button');
+            row.setAttribute('tabindex','0');
+            row.id = `day-${dayIndex}`;
+
+            // Coluna Dia
+            const dayNum = document.createElement('div');
+            dayNum.className = 'list-day-num';
+            dayNum.textContent = d.getDate();
+            row.appendChild(dayNum);
+
+            // Coluna Dia da Semana
+            const weekday = document.createElement('div');
+            weekday.className = 'list-weekday';
+            weekday.textContent = weekdayNames[d.getDay()];
+            row.appendChild(weekday);
+
+            // Coluna Turnos
+            const shifts = document.createElement('div');
+            shifts.className = 'list-shifts';
+
+            const shiftLetters = s.slice(0, 5).split(''); // M, T, N, Folga, Descanso (s[0] to s[4])
+            const feriasLetter = s[5] || '-';
+            
+            // Lógica de Férias: Só exibe a equipa de férias (s[5]) se a posição Descanso (s[4]) for '-'
+            let actualFeriasTeam = '-';
+            if (shiftLetters[4] === '-' && feriasLetter !== '-') {
+                actualFeriasTeam = feriasLetter;
+            }
+            
+            // ORDEM CORRETA: M (s[0]), T (s[1]), N (s[2]), Folga (s[3]), Descanso (s[4]), Férias (calculado)
+            const shiftsToRender = [
+                { letter: shiftLetters[0], name: 'Manhã' }, 
+                { letter: shiftLetters[1], name: 'Tarde' }, 
+                { letter: shiftLetters[2], name: 'Noite' }, 
+                { letter: shiftLetters[3], name: 'Folga' },
+                { letter: shiftLetters[4], name: 'Descanso' },
+                { letter: actualFeriasTeam, name: 'Férias' } 
+            ];
+            
+            shiftsToRender.forEach(shiftInfo => {
+                const item = document.createElement('div');
+                let className = '';
+                let content = '-'; // Padrão: hífen
+
+                if (shiftInfo.letter !== '-') {
+                    // Se houver uma letra de equipa (A-E)
+                    content = shiftInfo.letter;
+                    className = shiftInfo.letter; 
+                    
+                    if (shiftInfo.name === 'Férias') {
+                         // Se for Férias, adiciona a classe de estilo Férias
+                         className += ' ferias';
+                    }
+                    
+                } else {
+                    // Se for '-', usa o estilo 'empty' (Folga/Descanso/Turno vazio)
+                    className = 'empty';
+                    content = '-';
+                }
+
+                item.className = 'list-shift-item ' + className;
+                item.textContent = content;
+                shifts.appendChild(item);
+            });
+            
+            row.appendChild(shifts);
+            
+            const currentIdx = dayIndex;
+            row.addEventListener('click', ()=> openPopup(new Date(d), currentIdx));
+            row.addEventListener('keypress', (e)=>{ if(e.key==='Enter') openPopup(new Date(d), currentIdx); });
+
+            listContainer.appendChild(row);
+            dayIndex++;
+        }
+    }
+    calendarContainer.appendChild(listContainer);
+}
+
+
+/* ======= Funções de Popup (MANTIDO) ======= */
+function openPopup(date, idx){
+  popupTitle.textContent = date.toLocaleDateString('pt-PT', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
+  popupContent.innerHTML = '';
+  
+  const s = schedule[idx] || '------'; 
+  
+  for (let i=0;i<5;i++){
+    const letter = s[i] || '-';
+    const row = document.createElement('div');
+    row.className = 'row';
+
+    const left = document.createElement('div');
+    left.className = 'shiftLabel';
+    
+    if (letter !== '-') {
+      const sh = document.createElement('div');
+      sh.className = 'shift ' + letter;
+      sh.textContent = letter;
+      left.appendChild(sh);
+    } else {
+      const sh = document.createElement('div');
+      sh.className = 'shift';
+      sh.style.background = '#444';
+      sh.style.color = '#ccc';
+      sh.textContent = '-';
+      left.appendChild(sh);
+    }
+    
+    const label = document.createElement('div');
+    // Descrição dinâmica para Folga/Descanso
+    let description;
+    if (i < 3) {
+        description = i===0?'05:00 — 13:00': i===1?'13:00 — 21:00':'21:00 — 05:00';
+    } else {
+        description = letter !== '-' ? `Equipa ${letter}` : 'Vazio';
+    }
+    
+    label.innerHTML = `<div style="font-weight:600">${fullShiftNames[i]}</div><div class="muted" style="font-size:12px">${description}</div>`;
+    left.appendChild(label);
+    
+    row.appendChild(left);
+    popupContent.appendChild(row);
+  }
+  
+  const potentialFeriasLetter = s[5] || '-';
+  const descansoLetter = s[4] || '-';
+  
+  let actualFeriasTeam = '-';
+  if (descansoLetter === '-' && potentialFeriasLetter !== '-') {
+     actualFeriasTeam = potentialFeriasLetter;
+  }
+  
+  const feriasRow = document.createElement('div');
+  feriasRow.className = 'row';
+  feriasRow.style.borderTop = '1px dashed var(--highlight-color)';
+  feriasRow.style.marginTop = '6px';
+  feriasRow.style.paddingTop = '10px';
+
+  const feriasLeft = document.createElement('div');
+  feriasLeft.className = 'shiftLabel';
+  
+  const feriasSh = document.createElement('div');
+  if (actualFeriasTeam !== '-') {
+    feriasSh.className = 'shift ' + actualFeriasTeam;
+    feriasSh.textContent = actualFeriasTeam;
+    feriasSh.title = `Equipa ${actualFeriasTeam} de Férias`;
+  } else {
+    feriasSh.className = 'shift';
+    feriasSh.style.background = '#444';
+    feriasSh.style.color = '#ccc';
+    feriasSh.textContent = '-';
+  }
+  feriasLeft.appendChild(feriasSh);
+  
+  const feriasLabel = document.createElement('div');
+  feriasLabel.innerHTML = `<div style="font-weight:600; color: var(--highlight-color);">${fullShiftNames[5]}</div><div class="muted" style="font-size:12px">${actualFeriasTeam !== '-' ? `Equipa ${actualFeriasTeam} de Férias` : 'Nenhuma equipa de férias neste dia'}</div>`;
+  feriasLeft.appendChild(feriasLabel);
+  
+  feriasRow.appendChild(feriasLeft);
+  popupContent.appendChild(feriasRow);
+
+  let notes = '';
+  const ddmm = formatDDMM(date);
+  const nh = nationalHolidays.find(h => h.date === ddmm);
+  if (nh) notes += `Feriado : ${nh.name}\n`;
+  if (date.getDate() === marinhaGrande.day && date.getMonth() === marinhaGrande.month) notes += `Feriado municipal: Marinha Grande (Ascensão)\n`;
+  if (date.getDate() === diaVidreiro.day && date.getMonth() === diaVidreiro.month) notes += `Feriado local: Dia do Vidreiro\n`;
+  const ev = events.find(e => e.date === ddmm);
+  if (ev) notes += `${ev.name}\n`;
+  if (notes) {
+    const div = document.createElement('pre');
+    div.style.marginTop='8px';
+    div.style.whiteSpace='pre-wrap';
+    div.textContent = notes;
+    popupContent.appendChild(div);
+  }
+  overlay.style.display='block';
+  popup.style.display='block';
+  overlay.onclick = closePopup;
+}
+function closePopup(){
+  overlay.style.display='none';
+  popup.style.display='none';
+}
+
+/* ======= Funções de Navegação (MANTIDO) ======= */
+function navigateMonth(direction) {
+    currentMonth += direction;
+    if (currentMonth < 0) currentMonth = 0; 
+    if (currentMonth > 11) currentMonth = 11; 
+    createCalendar();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+function prevMonth() {
+    navigateMonth(-1);
+}
+function nextMonth() {
+    navigateMonth(1);
+}
+document.getElementById('prevMonthBtn').addEventListener('click', prevMonth);
+document.getElementById('nextMonthBtn').addEventListener('click', nextMonth);
+
+/* ======= Funções de Configuração (MANTIDO) ======= */
+function openSettings() {
+    settingsSidebar.classList.add('open');
+    overlay.style.display = 'block';
+    overlay.onclick = closeSettings;
+}
+
+function closeSettings() {
+    settingsSidebar.classList.remove('open');
+    if (popup.style.display !== 'block') {
+        overlay.style.display = 'none';
+    }
+    overlay.onclick = closePopup; 
+}
+
+function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    document.body.setAttribute('data-theme', theme); 
+    localStorage.setItem('theme', theme);
+}
+
+function applyViewMode(mode) {
+    viewMode = mode;
+    localStorage.setItem('viewMode', mode);
+    if (mode === 'single') {
+        currentMonth = new Date().getMonth();
+    }
+    createCalendar(); 
+}
+
+function applyDisplayMode(mode) { 
+    displayMode = mode;
+    localStorage.setItem('displayMode', mode);
+    createCalendar();
+}
+
+function loadPreferences() {
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    applyTheme(savedTheme);
+    document.getElementById(`theme-${savedTheme}`).checked = true;
+
+    const savedDisplayMode = localStorage.getItem('displayMode') || 'grid';
+    displayMode = savedDisplayMode;
+    document.getElementById(`display-${savedDisplayMode}`).checked = true;
+
+    const savedViewMode = localStorage.getItem('viewMode') || 'all';
+    viewMode = savedViewMode;
+    document.getElementById(`view-${savedViewMode}`).checked = true;
+    
+    if (viewMode === 'single') {
+        currentMonth = new Date().getMonth();
+    }
+}
+
+settingsBtn.addEventListener('click', openSettings);
+
+document.querySelectorAll('input[name="theme"]').forEach(radio => {
+    radio.addEventListener('change', (e) => applyTheme(e.target.value));
+});
+
+document.querySelectorAll('input[name="view-mode"]').forEach(radio => {
+    radio.addEventListener('change', (e) => applyViewMode(e.target.value));
+});
+
+document.querySelectorAll('input[name="display-mode"]').forEach(radio => {
+    radio.addEventListener('change', (e) => applyDisplayMode(e.target.value));
+});
+
+/* ======= Eventos UI (BOTÃO IR PARA DATA REMOVIDO) ======= */
+
+// gotoDateBtn e dateSelector removidos.
+// closePopupBtn.addEventListener('click', closePopup); (MANTIDO)
+closePopupBtn.addEventListener('click', closePopup);
+
+/* ======= inicializa (MANTIDO) ======= */
+loadPreferences(); 
+createCalendar();
+
+/* foco inicial: rolar para o mês de hoje */
+setTimeout(()=>{
+  if (viewMode === 'all') { 
+      const today = new Date();
+      // Rola para o dia correspondente no ano de 2026
+      const idx = getDayIndex(today.getDate(), today.getMonth());
+      const dayEl = document.getElementById(`day-${idx}`);
+      if (dayEl) dayEl.scrollIntoView({behavior:'auto',block:'center'});
+  }
+},200);
 </script>
 </body>
 </html>
